@@ -1,0 +1,20 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Milestone 1",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/milestones/milestone_01/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/milestones/milestone_01",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "Build Milestone 1"
+        }
+    ]
+}
