@@ -1,0 +1,38 @@
+
+# ==========================================
+# Embedded Linux DSP Project - Git Ignore
+# ==========================================
+
+# Compiled C/C++ files
+*.o
+*.obj
+*.exe
+*.out
+*.elf
+*.bin
+
+# Milestone 01 compiled executable
+/milestones/milestone_01/main
+
+# VS Code personal settings
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Temporary files
+*.swp
+*~
+*.tmp
+
+# Build directories
+build/
+cmake-build-*/
+
+# Python cache (for later DSP analysis)
+__pycache__/
+*.pyc
+
+# Yocto build outputs (for later milestones)
+poky/build/
+build-yocto/
+```
