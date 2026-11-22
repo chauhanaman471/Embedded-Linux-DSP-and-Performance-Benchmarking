@@ -1,4 +1,4 @@
-# Milestone 01 — Linux and Embedded Fundamentals
+# Milestone 01 — Linux workspace and C Program
 
 ## 1. Objective
 

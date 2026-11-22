@@ -15,6 +15,20 @@
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "preLaunchTask": "Build Milestone 1"
+        },
+        {
+            "name": "Debug Milestone 2",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/milestones/milestone_02/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/milestones/milestone_02",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "Build Milestone 2"
         }
     ]
 }

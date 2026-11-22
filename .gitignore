@@ -13,6 +13,7 @@
 
 # Milestone 01 compiled executable
 /milestones/milestone_01/main
+/milestones/milestone_02/main
 
 # VS Code personal settings
 .vscode/*
@@ -36,3 +37,5 @@ __pycache__/
 poky/build/
 build-yocto/
 ```
+# Enviornment files
+.venv/

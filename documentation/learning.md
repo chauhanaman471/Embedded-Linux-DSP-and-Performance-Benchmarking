@@ -3,27 +3,27 @@ The project is divided into 5 phases depending on learning, project development 
 
 
 
-Phase 01 : Linux and Embedded Fundamentals
-A - Linux workspace and C Program
-B - Sampling and signal generation
-C - Timing and memory fundamentals
+Phase A: Linux and Embedded Fundamentals
+milestone 01 - Linux workspace and C Program
+milestone 02 - Sampling and signal generation
+milestone 03 - Timing and memory fundamentals
 
-Phase 02 : DSP and GNU Radio
-A - Filtering a noisy signal
-B - Frequency analysis using FFT
-C - First GNU Radio flowgraph
+Phase B : DSP and GNU Radio
+milestone 04 - Filtering a noisy signal
+milestone 05 - Frequency analysis using FFT
+milestone 06 - First GNU Radio flowgraph
 
-Phase 03 : Linux application engineering and benchmarking
-A - Streaming DSP with Linux threads
-B - Performance benchmarking 
+Phase C : Linux application engineering and benchmarking
+milestone 07 - Streaming DSP with Linux threads
+milestone 08 - Performance benchmarking 
 
-Phase 04 : Yocto and Embedded Linux development
-A - Booting first Yocto Linux Image 
-B - Package DSP application
-C - Automatic startup and Linux diagnostics
+Phase D : Yocto and Embedded Linux development
+milestone 09 - Booting first Yocto Linux Image 
+milestone 10 - Package DSP application
+milestone 11 - Automatic startup and Linux diagnostics
 
-Phase 05 : Final portfolio Integration
-A - Demonstration and report
+Phase E : Final portfolio Integration
+milestone 12 - Demonstration and report
 
 
 
