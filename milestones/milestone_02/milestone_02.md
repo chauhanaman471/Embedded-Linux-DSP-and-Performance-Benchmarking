@@ -1,377 +1,209 @@
-# Milestone 02 — Sampling and Signal Generation
+# Milestone 02 - Sampling and Signal Generation
 
 ## 1. Objective
 
-The objective of this milestone is to understand the fundamentals of digital signal generation and sampling by developing a C application that generates two sinusoidal signals with different frequencies.
+The objective of this milestone is to understand the fundamentals of digital signal generation and sampling.
 
-The two signals are combined using the principle of superposition, and the resulting samples are stored in a CSV file.
+We will develop a C application that generates two sine waves with different frequencies, combines them using superposition, and saves the generated samples in a CSV file.
 
-Python is then used to visualize and analyze the generated signals. These samples will also be used in future milestones involving digital signal processing (DSP).
+Python will be used to visualize the signals. These samples can also be used for DSP processing in future milestones.
 
 ## 2. Problem Statement
 
-Consider an embedded system that needs to generate, process, and analyze signals containing multiple frequency components.
+We want to simulate two sinusoidal signals without using physical hardware.
 
-Since physical hardware is not being used during the initial learning phase, the signals are generated mathematically using a C application.
+The application should:
 
-The application must:
+1. Generate a 50 Hz sine wave with amplitude 1.0.
+2. Generate a 120 Hz sine wave with amplitude 1.0.
+3. Use a sampling frequency of 1000 Hz.
+4. Generate 1000 samples for each signal.
+5. Combine the two sine waves into a composite signal.
+6. Save the generated samples in a CSV file.
+7. Visualize the signals using Python.
 
-1. Generate two sine waves with frequencies of 50 Hz and 120 Hz.
-2. Sample both signals at a sampling frequency of 1,000 Hz.
-3. Combine the signals through superposition.
-4. Store 1,000 samples of each signal in a CSV file.
-5. Visualize the individual and composite signals using Python.
-6. Verify the generated signals using frequency and period calculations.
+### Signal Generation Formula
 
-## 3. Theory
-
-### 3.1 Sinusoidal Signal Generation
-
-A discrete-time sinusoidal signal can be represented mathematically as:
-
-\[
-x[n] = A\sin\left(2\pi f\frac{n}{f_s}\right)
-\]
+x[n] = A * sin(2 * PI * f * n / fs)
 
 Where:
 
-| Parameter | Description |
-|---|---|
-| \(x[n]\) | Amplitude of the generated signal at sample index n |
-| \(A\) | Amplitude of the sine wave |
-| \(f\) | Signal frequency in hertz (Hz) |
-| \(f_s\) | Sampling frequency in samples per second (Hz) |
-| \(n\) | Sample index |
-| \(\pi\) | Mathematical constant pi |
+- A = Amplitude of the sine wave
+- f = Frequency of the sine wave in Hz
+- fs = Sampling frequency in Hz
+- n = Sample index
+- PI = 3.14159265
 
-For this milestone, the following parameters are used:
+For our experiment:
 
-| Parameter | Value |
-|---|---|
-| Signal 1 frequency | 50 Hz |
-| Signal 2 frequency | 120 Hz |
-| Signal 1 amplitude | 1.0 |
-| Signal 2 amplitude | 1.0 |
-| Sampling frequency | 1,000 Hz |
-| Number of samples | 1,000 |
+Signal 1:
 
-### 3.2 Frequency and Time Period
+x1[n] = sin(2 * PI * 50 * n / 1000)
 
-Frequency represents the number of complete oscillations a periodic signal performs in one second.
+Signal 2:
 
-The time period represents the duration required to complete one oscillation.
+x2[n] = sin(2 * PI * 120 * n / 1000)
 
-The relationship between frequency and period is:
+Composite signal:
 
-\[
-T = \frac{1}{f}
-\]
+x[n] = x1[n] + x2[n]
 
-**For Signal 1 (50 Hz):**
+### Frequency and Time Period
 
-\[
-T_1 = \frac{1}{50} = 0.02\text{ s} = 20\text{ ms}
-\]
+Frequency represents the number of complete oscillations in one second.
 
-Therefore, the 50 Hz sine wave completes one oscillation every 20 milliseconds.
+Time period represents the time required to complete one oscillation.
 
-**For Signal 2 (120 Hz):**
+Formula:
 
-\[
-T_2 = \frac{1}{120} \approx 0.00833\text{ s} = 8.33\text{ ms}
-\]
+T = 1 / f
 
-Therefore, the 120 Hz sine wave completes one oscillation approximately every 8.33 milliseconds.
+For the 50 Hz sine wave:
 
-### 3.3 Sampling Frequency
+T1 = 1 / 50 = 0.02 seconds = 20 ms
 
-Sampling is the process of measuring a continuous-time signal at discrete time intervals.
+For the 120 Hz sine wave:
 
-The sampling frequency specifies the number of samples acquired per second.
+T2 = 1 / 120 = 0.00833 seconds = 8.33 ms
 
-For this milestone:
+### Sampling Frequency
 
-\[
-f_s = 1000\text{ Hz}
-\]
+The sampling frequency determines how many samples are taken per second.
 
-The sampling interval is:
+In this milestone:
 
-\[
-T_s = \frac{1}{f_s}
-\]
+Sampling frequency = 1000 Hz
 
-\[
-T_s = \frac{1}{1000} = 0.001\text{ s} = 1\text{ ms}
-\]
+Sampling interval = 1 / 1000 = 1 ms
 
-Therefore, consecutive samples are separated by 1 millisecond.
+Number of samples = 1000
 
-The total duration represented by 1,000 samples is:
+Total signal duration = 1000 / 1000 = 1 second
 
-\[
-T_{\text{record}} = \frac{N}{f_s} = \frac{1000}{1000} = 1\text{ s}
-\]
+The sample indices range from 0 to 999.
 
-The sample indices range from 0 to 999, corresponding to time coordinates from 0 to 999 milliseconds.
+### Nyquist Sampling Criterion
 
-### 3.4 Signal Superposition
+To avoid aliasing for a band-limited signal, the sampling frequency should be greater than twice the highest signal frequency.
 
-The principle of superposition states that signals can be combined by adding their corresponding amplitudes.
+fs > 2 * f_max
 
-For this milestone, the two generated signals are:
+For our experiment:
 
-\[
-x_1[n] = \sin\left(2\pi 50\frac{n}{1000}\right)
-\]
+1000 > 2 * 120
 
-\[
-x_2[n] = \sin\left(2\pi 120\frac{n}{1000}\right)
-\]
-
-The composite signal is:
-
-\[
-x[n] = x_1[n] + x_2[n]
-\]
-
-Therefore:
-
-\[
-x[n] = \sin\left(2\pi 50\frac{n}{1000}\right) + \sin\left(2\pi 120\frac{n}{1000}\right)
-\]
-
-The resulting waveform contains both frequency components.
-
-Depending on the instantaneous amplitudes of the signals, superposition can produce constructive or destructive interference.
-
-### 3.5 Nyquist Sampling Criterion
-
-According to the Nyquist sampling criterion, a band-limited signal must be sampled at a rate greater than twice its highest frequency to avoid aliasing under ideal sampling assumptions.
-
-\[
-f_s > 2f_{\max}
-\]
-
-The highest generated frequency in this experiment is 120 Hz.
-
-\[
-1000 > 2(120)
-\]
-
-\[
 1000 > 240
-\]
 
-Therefore, the selected sampling frequency is sufficient to represent both generated sine waves without aliasing.
+Therefore, the chosen sampling frequency is sufficient for both sine waves.
 
 ## 4. Implementation Using C
 
-The signal-generation application was developed using C and compiled with GCC in the Ubuntu WSL2 environment.
+The signal generator was implemented in C using GCC in Ubuntu through WSL2.
 
-The application follows these steps:
+The program performs the following operations:
 
-1. Define the frequency, amplitude, sampling frequency, and number of samples.
-2. Declare arrays to store the individual sine waves and the composite signal.
-3. Open a CSV file using `fopen()`.
-4. Generate the two sine waves using the mathematical `sin()` function.
-5. Combine the signals by adding their amplitudes at each sample index.
-6. Store the generated samples in the arrays.
-7. Write the sample index and signal values into the CSV file using `fprintf()`.
-8. Check for file operation errors and close the file using `fclose()`.
+1. Define amplitudes, frequencies, sampling frequency, and number of samples.
+2. Create arrays to store the two sine waves and composite signal.
+3. Open a CSV file using fopen().
+4. Generate sine waves using the sin() function from math.h.
+5. Combine both signals using addition.
+6. Store the values in arrays.
+7. Write the generated samples to the CSV file using fprintf().
+8. Close the file using fclose() and check for errors.
 
-The C application produces a file named `composite_signal.csv`.
+### CSV Output
 
-The file contains 1,000 data rows representing one second of generated signal data, along with a header row.
+The generated file is named `composite_signal.csv`.
 
-The four columns are:
+It contains four columns:
 
 - Sample Index
 - Sine Wave 1
 - Sine Wave 2
 - Composite Signal
 
-## 5. Python Environment and Visualization
+The file contains 1000 data rows and one header row.
 
-Python is used to visualize and analyze the generated signal samples.
+### Python Visualization
 
-A virtual environment (`.venv`) was created to isolate project-specific dependencies from other Python projects.
+Python was used to visualize the generated signals.
 
-The following libraries were installed:
+A virtual environment was created to keep project dependencies separate.
 
-| Library | Purpose |
-|---|---|
-| NumPy | Numerical arrays and mathematical calculations |
-| Pandas | Reading and processing CSV data |
-| Matplotlib | Generating and saving time-domain plots |
+Libraries used:
 
-Pandas is used to read `composite_signal.csv` into a DataFrame.
+- Pandas: Reading and processing CSV data.
+- Matplotlib: Plotting and saving signals.
+- NumPy: Installed for future numerical calculations.
 
-Since the CSV column names initially contained extra whitespace, the following operation was used:
+The sample indices were converted into time coordinates using:
 
-`data.columns = data.columns.str.strip()`
+time = sample_index / sampling_frequency
 
-This removes leading and trailing spaces from column names.
+To convert time into milliseconds:
 
-### 5.1 Converting Sample Index to Time
+time_ms = (sample_index / sampling_frequency) * 1000
 
-For visualization, each sample index must be associated with its corresponding time coordinate.
+Only the first 100 milliseconds were selected for visualization.
 
-\[
-t[n] = \frac{n}{f_s}
-\]
+Three plots were generated:
 
-For a sampling frequency of 1,000 Hz:
-
-\[
-t[n] = \frac{n}{1000}
-\]
-
-The calculated value is in seconds.
-
-To convert into milliseconds:
-
-\[
-t_{\text{ms}}[n] = \frac{n}{f_s}\times1000
-\]
-
-The Python implementation uses:
-
-`data["time_ms"] = data["Sample Index"] / samplingRate * 1000`
-
-### 5.2 Selecting the Visualization Window
-
-For easier visualization, only the first 100 milliseconds of the generated signals were plotted.
-
-The time window was selected using Pandas:
-
-`subset = data[data["time_ms"] < 100]`
-
-This selects 100 samples, corresponding to sample indices 0 through 99.
-
-Matplotlib was used to generate and save three separate graphs.
+1. 50 Hz sine wave
+2. 120 Hz sine wave
+3. Composite signal
 
 ## 6. Results and Observations
 
-### 6.1 Signal 1 — 50 Hz Sine Wave
+### 50 Hz Sine Wave
 
-![50 Hz Sine Wave](../milestones/milestone_02/Sine_wave_50Hz.png)
+Frequency = 50 Hz
 
-The first signal has a frequency of 50 Hz and amplitude of 1.0.
+Time period = 20 ms
 
-Observations:
+Number of cycles in 100 ms = 100 / 20 = 5
 
-- The signal completes 5 oscillations in 100 milliseconds.
-- The theoretical amplitude ranges from -1 to +1.
-- The time period is 20 milliseconds.
+**Observation:** The generated waveform completes 5 cycles within 100 milliseconds.
 
-Number of cycles:
+### 120 Hz Sine Wave
 
-\[
-N_{\text{cycles}} = \frac{100\text{ ms}}{20\text{ ms}} = 5
-\]
+Frequency = 120 Hz
 
-### 6.2 Signal 2 — 120 Hz Sine Wave
+Time period = 8.33 ms
 
-![120 Hz Sine Wave](../milestones/milestone_02/Sine_wave_120Hz.png)
+Number of cycles in 100 ms = 100 / 8.33 = approximately 12
 
-The second signal has a frequency of 120 Hz and amplitude of 1.0.
+**Observation:** The generated waveform completes 12 cycles within 100 milliseconds.
 
-Observations:
+### Composite Signal
 
-- The signal completes 12 oscillations in 100 milliseconds.
-- The theoretical amplitude ranges from -1 to +1.
-- The time period is approximately 8.33 milliseconds.
+The composite signal was generated by adding the two sine waves at every sample index.
 
-Number of cycles:
+**Observations:**
 
-\[
-N_{\text{cycles}} = \frac{100\text{ ms}}{8.33\text{ ms}} \approx 12
-\]
+- The composite waveform is more complex than the individual sine waves.
+- It contains both 50 Hz and 120 Hz frequency components.
+- When both sine waves reinforce each other, constructive interference occurs.
+- When the sine waves oppose each other, destructive interference occurs.
 
-### 6.3 Composite Signal
+### Key Learnings
 
-![Composite Signal](../milestones/milestone_02/Composite_Signal.png)
-
-The composite signal is generated by adding the amplitudes of the two individual sine waves at every sample index.
-
-Observations:
-
-- The resulting waveform is more complex than either individual sine wave.
-- The signal contains the 50 Hz and 120 Hz frequency components.
-- Constructive interference occurs when the instantaneous signal amplitudes reinforce each other.
-- Destructive interference occurs when the instantaneous signal amplitudes oppose each other.
-- The theoretical amplitude bounds are -2 to +2, although the waveform does not necessarily reach those limits.
-
-## 7. Testing and Validation
-
-The following checks were performed during development:
-
-| Test | Expected result | Observation |
-|---|---|---|
-| Signal generation | 1,000 data samples | Generated successfully |
-| CSV export | Four columns of signal data | Generated successfully |
-| 50 Hz visualization | 5 cycles in 100 ms | Confirmed |
-| 120 Hz visualization | 12 cycles in 100 ms | Confirmed |
-| Composite visualization | Superposition of both signals | Confirmed |
-| Python CSV reading | Data loaded into Pandas | Successful |
-| Graph export | Three PNG files | Successful |
-
-The CSV contains 1,000 signal samples and one header row, giving 1,001 lines in total.
-
-## 8. Challenges and Debugging
-
-### 8.1 CSV File Not Found
-
-Initially, Python was unable to locate `composite_signal.csv`.
-
-The problem occurred because Python searched for the file relative to its current working directory.
-
-The issue was resolved by running the Python script from the milestone directory where the CSV file was stored.
-
-**Learning:** Relative file paths depend on the process's current working directory.
-
-### 8.2 Pandas Column Name Error
-
-A `KeyError` occurred while accessing the CSV columns because some column names contained leading whitespace.
-
-The issue was resolved using:
-
-`data.columns = data.columns.str.strip()`
-
-**Learning:** Pandas column names must match exactly, including whitespace and capitalization.
-
-### 8.3 Matplotlib Display Warning
-
-Matplotlib initially produced a warning because the environment used a non-interactive backend.
-
-The issue was resolved by saving the plots as PNG files using `plt.savefig()` instead of displaying them using `plt.show()`.
-
-**Learning:** Matplotlib can generate and save plots without requiring an interactive graphical display.
-
-## 9. Key Learnings
-
-This milestone introduced the following concepts:
-
-- Discrete-time sinusoidal signal generation.
+- Generating sinusoidal signals using C.
+- Understanding sampling frequency and sampling intervals.
 - Relationship between frequency and time period.
-- Sampling frequency and sampling interval.
-- Sample index to time-coordinate conversion.
-- Nyquist sampling criterion.
 - Signal superposition.
-- Using arrays to store signal samples in C.
-- Exporting signal data to CSV files.
-- Using Python virtual environments.
-- Reading and processing CSV data using Pandas.
+- Storing numerical samples in CSV files.
+- Reading CSV files using Pandas.
 - Visualizing signals using Matplotlib.
-- Debugging filesystem paths, CSV formatting, and plotting issues.
+- Debugging file paths and CSV column names in Python.
 
-## 10. Conclusion
+### Conclusion
 
-In this milestone, a C application was developed to generate two sinusoidal signals with frequencies of 50 Hz and 120 Hz.
+In this milestone, two sine waves of frequencies 50 Hz and 120 Hz were successfully generated using C.
 
-The generated signals were combined through superposition and saved as discrete samples in a CSV file.
+The signals were combined through superposition and stored in a CSV file.
 
-Python was used to visualize the individual and composite waveforms, and the observed number of cycles matched the theoretical calculations.
+Python was used to visualize the individual signals and the composite waveform.
 
-This milestone established a foundation for future work involving digital filtering, frequency-domain analysis, Fourier transforms, and DSP performance benchmarking.
+The observed number of cycles matched the theoretical calculations.
+
+This milestone provides a foundation for future work involving DSP algorithms, filtering, FFT, and performance benchmarking.
