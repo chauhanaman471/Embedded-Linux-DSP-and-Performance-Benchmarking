@@ -35,6 +35,25 @@
                 "isDefault": true
             },
             "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "Build Milestone 3",
+            "type": "shell",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "${workspaceFolder}/milestones/milestone_03/main.c",
+                "-o",
+                "${workspaceFolder}/milestones/milestone_03/main",
+                "-lm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
         }
     ]
 }
